@@ -10,16 +10,18 @@
 close all
 clear
 clc
+
+%% Basic Setting
+setting 
 addpath(genpath('datas'));
 addpath('plotres');
 addpath('functions');
 addpath('externs');
+mkdir(['datas/flip-moments/',foldername])
+disp('Create Folder for Record Flip-Around Moments')
 
-%% run the setting function
-setting 
 
-plotset = 1;
-
+%% Data Preloading
 % load fliptime 
 fliptimeload = 1;
 if fliptimeload == 1
@@ -134,7 +136,6 @@ for iiii = 1:length(tInv)
         close
     end
 
-    % save interpolation fig
     if savefig == 1
         figure()
         set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
@@ -170,7 +171,7 @@ for iiii = 1:length(tInv)
     end
 
     %% manual editing of extracted boundary points
-    if wantthis == 1
+    if wantthis == 1 && manuelw == 1
         [newx,newy] = func_manual(orig,ex,-ey);
     end
 
@@ -190,9 +191,11 @@ for iiii = 1:length(tInv)
     end
 
     expixel = ex; eypixel = ey;
-    %%%%%%%%
-    ex = testx; ey = testy; 
-    %%%%%%%%
+
+    % use manuelly operated points to calculate
+    if wantthis == 1 && manuelw == 1
+        ex = newx; ey = newy; 
+    end
 
     % calibration video rescale
     ex = ex/natpara.rr;
@@ -218,6 +221,7 @@ for iiii = 1:length(tInv)
     % conduct interpolation based on the chosen method
     [pt,res] = func_allinterpolation(intp,natpara,ex,ey,s,xx);
 
+    % unpack Fourier parameters
     if method(1) == 'F'
         kappa = res{1}; kappa_h = res{2}; curv = res{3}; x_e = res{4}; y_e = res{5}; 
         fd = res{6}; sd = res{7};
@@ -236,6 +240,18 @@ for iiii = 1:length(tInv)
 
     % store the normalized interpolation point (-center of mass)
     intpcell{1,iiii} = [pt(:,1)-cx,pt(:,2)-cy]; 
+
+        % save manully operated points to dataframe with timestamp
+    if wantthis == 1 && manuelw == 1
+        savethis = input('Save This File? ');
+        if savethis == 1
+            global rfr
+            ts = f/rfr; % (s)
+            of = ['datas/flip-moments/',foldername,num2str(ts),'.mat']; % output folder
+            save(of,"pt","ts","cx","cy");
+            disp(['Saved Data to ', of]); 
+        end
+    end
 
     %% Calculate harmonic moment (outdated)
     % x_h,y_h: fourier coefficients
@@ -260,9 +276,6 @@ for iiii = 1:length(tInv)
 
         % save tracking points
         pttracker{jj}{1,iiii} = pt-[cx,0];
-        %%%%%%%%
-%         pttracker{jj}{1,iiii} = [testx,testy]-[cx,0];
-        %%%%%%%%
 
         xs_e = fd(:,1); ys_e = fd(:,2);
         % points below the surface

@@ -1,3 +1,5 @@
+% revised to be compatible R2022b version of MATLAB
+
 function  [X,Y,BUTTON,SCALEMAT] = ginput2(varargin)
 %GINPUT2   Graphical input from mouse with zoom, pan, plot and scaling.
 %   

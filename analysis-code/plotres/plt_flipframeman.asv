@@ -1,0 +1,27 @@
+%--------------------------------------------------------------------------
+% Plot frames with manuel operated ("twisted") datapoints 
+%
+% Steven Zhang, Courant Institute
+% Updated May 2023
+%--------------------------------------------------------------------------
+
+foldername = '2022-06-28-b/';
+actfolder = ['../datas/flip-moments/',foldername];
+S = dir(fullfile(actfolder,'**','*.mat'));
+names = {S.name}; ll = length(names); 
+nm = []; % register to numerics
+for i = 1:ll
+    nk = names(i); nr = nk{1}; 
+    nm(end+1) = str2num(nr(1:end-4));
+end
+nm = sort(nm);
+assert(mod(ll,2) == 1) % must have 2x frames
+
+for i = 1:ll/2
+    cnt = (i-1)*2+1; 
+    fframe = load([actfolder,num2str(nm(cnt)),'.mat']);
+    sc
+    
+
+
+end

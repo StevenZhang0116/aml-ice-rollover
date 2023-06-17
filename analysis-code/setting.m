@@ -37,7 +37,7 @@ bdyn = func_bodydynamics();
 cf = func_curve();
 
 %% parameter settings
-global rho_water rho_air rho_ice g method dec bkt
+global rho_water rho_air rho_ice g method dec bkt rfr
 
 % interpolation method
 method = 'F';
@@ -135,6 +135,8 @@ wlineset = [];
 closeoverind = 1; 
 colorVec = parula(cellLength);
 adj = 0;
+plotset = 1;
+manuelw = 1; 
 
 %% global data cell
 natpara = struct('wcs',wl_cm_s,'rr',rr,'numpt',numpt,'vrr',variationset);
