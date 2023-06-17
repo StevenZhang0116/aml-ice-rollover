@@ -26,7 +26,7 @@ for ii = 1:ll/2
     fframe = load([actfolder,num2str(nm(cnt)),'.mat']); pt1 = fframe.pt; 
     sframe = load([actfolder,num2str(nm(cnt)),'.mat']); pt2 = fframe.pt; 
     hold on
-    
-
-
+    scatter(pt1(:,1)-fframe.cx,pt1(:,2)-fframe.cy,'blue');
+    scatter(pt2(:,1)-sframe.cx,pt2(:,2)-sframe.cy,'red');
+    legend([num2str(fframe.ts),'s'],[num2str(sframe.ts),'s']);
 end

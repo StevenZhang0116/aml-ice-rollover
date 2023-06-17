@@ -172,7 +172,7 @@ for iiii = 1:length(tInv)
 
     %% manual editing of extracted boundary points
     if wantthis == 1 && manuelw == 1
-        [newx,newy] = func_manual(orig,ex,-ey);
+        [newx,newy] = func_manual(orig,ex,-ey,fr);
     end
 
     %% Interpolation    

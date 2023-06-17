@@ -22,6 +22,15 @@ function fr = func_aux
     fr.circlefit = @circlefit;
     fr.mkngon = @mkngon;
     fr.matrix_rotation = @matrix_rotation;
+    fr.angle_sort = @angle_sort; 
+end
+
+function [testx,testy] = angle_sort(testx,testy)
+    xCenter = mean(testx); yCenter = mean(testy);
+    angles = atan2d(testy-yCenter,testx-xCenter);
+    [~,sai1] = sort(angles);
+    testx = testx(sai1);
+    testy = testy(sai1);
 end
 
 % create data points around the regular pentagon

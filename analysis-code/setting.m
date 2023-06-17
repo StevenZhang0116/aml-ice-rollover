@@ -20,6 +20,7 @@ calibrationName = strcat(rootname,foldername,calibration);
 
 v = VideoReader(videoName);
 
+global rfr
 % framerate registeration
 rfr = v.FrameRate;
 % start frame, when the iceberg is steady
@@ -37,7 +38,7 @@ bdyn = func_bodydynamics();
 cf = func_curve();
 
 %% parameter settings
-global rho_water rho_air rho_ice g method dec bkt rfr
+global rho_water rho_air rho_ice g method dec bkt
 
 % interpolation method
 method = 'F';

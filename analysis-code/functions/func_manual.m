@@ -35,4 +35,6 @@ function [thisx,thisy] = func_manual(pic,datax,datay)
     scatter(thisx,thisy,'blue','filled');
     pause
     close all
+
+    [thisx,thisy] = fr.angle_sort(thisx,thisy);
 end
