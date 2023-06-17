@@ -1,0 +1,12 @@
+function [thisx,thisy] = func_manual(pic,datax,datay)
+    figure()
+    set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
+    imshow(pic); hold on; 
+    title('Deleted ')
+    scatter(datax,datay,'green','filled')
+    [addx,addy] = ginput2('PlotOpt'); 
+
+
+    thisx = [datax;addx];
+    thisy = [datay;addy];
+end

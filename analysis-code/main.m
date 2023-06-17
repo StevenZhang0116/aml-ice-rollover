@@ -10,10 +10,10 @@
 close all
 clear
 clc
-addpath('datas')
-addpath('plotres')
-addpath('functions')
-addpath('externs')
+addpath(genpath('datas'));
+addpath('plotres');
+addpath('functions');
+addpath('externs');
 
 %% run the setting function
 setting 
@@ -24,7 +24,7 @@ plotset = 1;
 fliptimeload = 1;
 if fliptimeload == 1
     date_experiment = foldername(1:end-1);
-    flippath = '/data-rolltime/';
+    flippath = 'data-rolltime/';
     adjoint = strcat(flippath,date_experiment,'.mat');
     flipdata = load(adjoint).result;
     % ignore flips after 23 minutes [roughly]
@@ -169,8 +169,10 @@ for iiii = 1:length(tInv)
         close
     end
 
-    disp(bestalpha_r)
-    disp(siga)
+    %% manual editing of extracted boundary points
+    if wantthis == 1
+        [newx,newy] = func_manual(orig,ex,-ey);
+    end
 
     %% Interpolation    
     % choose which type of detection we aim to use
@@ -334,7 +336,7 @@ for iiii = 1:length(tInv)
         end
         
         % =================================== %  
-        % Approach 2
+        % Approach 2 [outdated]
         % incircle and circumscribed circle
         % =================================== %  
 
@@ -509,7 +511,7 @@ for iiii = 1:length(tInv)
     
     end
 
-    %% Polygon rotation (counterclockwise)
+    %% Polygon rotation (counterclockwise) [outdated]
     % 1: boundary integral
     % 2: body integral
     % 3: both present, and show the comparison, not for test application
