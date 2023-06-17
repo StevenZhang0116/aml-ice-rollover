@@ -1,4 +1,4 @@
-function [thisx,thisy] = func_manual(pic,datax,datay)
+function [thisx,thisy] = func_manual(pic,datax,datay,fr)
     close all
     figure()
     set(gcf, 'units','normalized','outerposition',[0 0 1 1]);

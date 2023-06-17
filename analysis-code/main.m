@@ -32,7 +32,7 @@ if fliptimeload == 1
     % ignore flips after 23 minutes [roughly]
     flipdata = flipdata(flipdata<23*60);
     % also rollback several seconds
-    flipdata = flipdata-5; 
+%     flipdata = flipdata-5; 
     % transform seconds to frame number
     flipdata = flipdata.*rfr;
     % add sf into it, as the indicator of initial shape
@@ -52,8 +52,9 @@ if meltrateind == 1
     for i = 2:length(tInv)-1
         % the manually selected second is slighly before each flip
         cf = i;
-        bf = tInv(cf)+10*rfr; bf2 = tInv(cf)+20*rfr; 
-        af = tInv(cf+1)-10*rfr; af2 = tInv(cf+1)-20*rfr;
+        delay = 5;
+        bf = tInv(cf)+delay*rfr; bf2 = tInv(cf)+2*delay*rfr; 
+        af = tInv(cf+1)-delay*rfr; af2 = tInv(cf+1)-2*delay*rfr;
         inttflip = 5*rfr;
         % select "moment" between 2 flips
         flipInv = [bf:inttflip:bf2,af2:inttflip:af];
@@ -72,13 +73,14 @@ if meltrateind == 1
 end
 
 %% start the main for loop to frames in the video
+% change bounds in generating data with manual operations
 for jj = 1:length(alltInv)
 tInv = alltInv{jj};
 tflipdiff = (tInv(end)-tInv(1))/rfr;
 % specifiy the initial frame to the end
 for iiii = 1:length(tInv) 
     f = tInv(iiii);
-    disp(f)
+    disp(f/v.FrameRate)
     
     %% Edge tracking
     [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary,...
@@ -248,7 +250,7 @@ for iiii = 1:length(tInv)
             global rfr
             ts = f/rfr; % (s)
             of = ['datas/flip-moments/',foldername,num2str(ts),'.mat']; % output folder
-            save(of,"pt","ts","cx","cy");
+            save(of,"pt","ts","cx","cy","ex","ey");
             disp(['Saved Data to ', of]); 
         end
     end
