@@ -46,7 +46,7 @@ if meltrateind == 1
     allmc = cell(1,length(tInv)-2);
     allnormalmc = cell(1,length(tInv)-2);
     pttracker = cell(1,length(tInv)-2);
-    alltInv = cell(1,length(tInv)-2);
+    alltInv = cell(1,length(tInv)-1);
     indInv = cell(1,length(tInv)-2);
     centerlst = cell(1,length(tInv)-2);
     for i = 2:length(tInv)-1
@@ -72,11 +72,14 @@ if meltrateind == 1
     end
 end
 
+alltInv{length(alltInv)} = load(adjoint).freetime*rfr;
+
 %% start the main for loop to frames in the video
 % change bounds in generating data with manual operations
 for jj = 8:length(alltInv)
 tInv = alltInv{jj};
 tflipdiff = (tInv(end)-tInv(1))/rfr;
+
 % specifiy the initial frame to the end
 for iiii = 1:length(tInv) 
     f = tInv(iiii);
@@ -648,7 +651,9 @@ indc = 0;
 for tttt = 1:length(indInv{jj})
     indc = indc + indInv{jj}{tttt};
 end
-assert(indc == 2)
+if length(tInv) > 1
+    assert(indc == 2)
+end
 
 end
 

@@ -12,7 +12,7 @@ close all
 
 clear diff
 
-path = './data-rolltime/';
+path = './datas/data-rolltime/';
 
 delete([path,'/*.mat']);
 
@@ -75,7 +75,8 @@ save([path,name12],'result','direction');
 name13 = '2022-06-28-b';
 result = [3*60+48,6*60+26,7*60+26,9*60+33,12*60+2,13*60+55,15*60+9,17*60+33,20*60+45,23*60+0,24*60+55,27*60+15];
 direction = [0,1,0,1,1,0,1,1,0,1,0,1];
-save([path,name13],'result','direction');
+freetime = 0*60+52;
+save([path,name13],'result','direction','freetime');
 
 name14 = '2022-06-28-c';
 result = [9*60+31,11*60+48,14*60+12,16*60+16,18*60+51,21*60+35,23*60+40,25*60+39,27*60+33];

@@ -17,7 +17,8 @@ for i = 1:ll
     nm(end+1) = str2num(nr(1:end-4));
 end
 nm = sort(nm);
-assert(mod(ll,2) == 0) % must have 2x frames
+nm(end+1) = nm(1); nm(1) = []; % move the initial shape to last plot 
+assert(mod(ll,2) == 1) % must have 2x+1 frames
 
 figure('units','normalized','outerposition',[0 0 1 1]);
 [ha,~] = tight_subplot(round(ll/2/2),2,[.01 .03],[.1 .01],[.01 .01]);
@@ -35,4 +36,19 @@ for ii = 1:ll/2
     legend([num2str(fframe.ts),'s'],[num2str(sframe.ts),'s'],'waterline');
 end
 
-saveas(gcf,[foldername(1:end-1),'-fliprecord.jpg'])
+% IC
+figure()
+iframe = load([actfolder,num2str(nm(end)),'.mat']); pt = iframe.pt; 
+scatter(pt(:,1)-iframe.cx,pt(:,2),'green')
+yline(wlineset(1),'LineStyle','--')
+axis equal
+
+
+% saveas(gcf,[foldername(1:end-1),'-fliprecord.jpg'])
+
+
+
+
+
+
+

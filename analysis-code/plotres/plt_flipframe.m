@@ -17,9 +17,6 @@ function [] = plt_flipframe(alltInv,pttracker,indInv,closeoverind,wl)
     assert(length(alltInv) == length(frame))
 
     nn = length(alltInv);
-    %%%
-    nn = 6;
-    %%%
     [ha, pos] = tight_subplot(round(nn/2),2,[.01 .03],[.1 .01],[.01 .01]);
     for ii = 1:nn
         thistime = time{ii};
@@ -46,3 +43,4 @@ function [] = plt_flipframe(alltInv,pttracker,indInv,closeoverind,wl)
     end
     set(ha(1:4),'XTickLabel',''); set(ha,'YTickLabel','')
 end
+
