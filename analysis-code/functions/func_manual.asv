@@ -1,20 +1,32 @@
-function [thisx,thisy] = func_manual(pic,datax,datay,f)
+%--------------------------------------------------------------------------
+% Manual operation on boundary data points
+% Based on ginput2.m 
+% Delete unwanted points -> Add Points -> Check
+% Use mouse to operate: 
+% Single left click: zoomin; Double click: back to original view
+% Ri
+%
+% Steven Zhang, Courant Institute
+% Updated May 2023
+%--------------------------------------------------------------------------
+
+function [thisx,thisy] = func_manual(pic,datax,datay,fr)
     close all
     figure()
     set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
     %% Delete Points
     imshow(pic); hold on; title('Deleted Points');
     scatter(datax,datay,'green','filled');
-    [xdel,ydel] = ginput2('PlotOpt'); 
+    [delx,dely] = ginput2('PlotOpt'); 
     % Delete the closest point in data
     % To guarantee accuracy, mark carefully
-    for i = 1:length(xdel)
-        delpoint = [xdel(i),ydel(i)];
+    for i = 1:length(delx)
+        delpoint = [delx(i),dely(i)];
         distdic = sqrt((datax-delpoint(1)).^2+(datay-delpoint(2)).^2);
         [~,sind] = min(distdic);
         datax(sind) = []; datay(sind) = [];
     end
-    disp(['Deleted ', num2str(length(xdel)), ' Points!']);
+    disp(['Deleted ', num2str(length(delx)), ' Points!']);
     close all
 
     %% Add Points
@@ -25,19 +37,16 @@ function [thisx,thisy] = func_manual(pic,datax,datay,f)
     [addx,addy] = ginput2('PlotOpt'); 
     thisx = [datax;addx];
     thisy = [datay;addy];
+    disp(['Added ', num2str(length(addx)), ' Points!']);
     close all
 
     %% CheckPoint
     figure()
     set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
     imshow(pic); hold on; title('Final Result')
-    scatter(thisx,thisy);
-    
-    savethis = input('Save This File?');
-    if savethis == 1
-        tt 
-        save([])
-    end
+    scatter(thisx,thisy,'blue','filled');
+    pause
+    close all
 
-
+    [thisx,thisy] = fr.angle_sort(thisx,thisy);
 end

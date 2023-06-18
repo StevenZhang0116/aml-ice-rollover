@@ -1,4 +1,23 @@
+%--------------------------------------------------------------------------
+% Manual operation on boundary data points
+% Based on ginput2.m 
+% Delete unwanted points -> Add Points -> Check
+% Use mouse to operate: 
+% Single left click: zoomin; Double click: back to original view
+% Right click: select datapoint and mark
+% Left click (outside of frame) + Enter: stop and move on
+%
+% Steven Zhang, Courant Institute
+% Updated May 2023
+%--------------------------------------------------------------------------
+
 function [thisx,thisy] = func_manual(pic,datax,datay,fr)
+% INPUT
+% pic - background image
+% datax, datay - extracted datapoints using alphashape-algo
+% OUTPUT
+% thisx, thisy - edited datapoints
+
     close all
     figure()
     set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
@@ -38,3 +57,8 @@ function [thisx,thisy] = func_manual(pic,datax,datay,fr)
 
     [thisx,thisy] = fr.angle_sort(thisx,thisy);
 end
+
+
+
+
+

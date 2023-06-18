@@ -50,7 +50,7 @@ degmin = 5;
 degmax = 32;
 variationset = degmin:1:degmax;
 % number of interpolation point
-numpt = 2048;
+numpt = 4096;
 
 % define density parameters
 rho_water = 998; % kg/m3

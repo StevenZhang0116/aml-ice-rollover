@@ -53,7 +53,7 @@ if meltrateind == 1
         % the manually selected second is slighly before each flip
         cf = i;
         delay = 5;
-        bf = tInv(cf)+delay*rfr; bf2 = tInv(cf)+2*delay*rfr; 
+        bf = tInv(cf)+2*delay*rfr; bf2 = tInv(cf)+3*delay*rfr; 
         af = tInv(cf+1)-delay*rfr; af2 = tInv(cf+1)-2*delay*rfr;
         inttflip = 5*rfr;
         % select "moment" between 2 flips
@@ -74,7 +74,7 @@ end
 
 %% start the main for loop to frames in the video
 % change bounds in generating data with manual operations
-for jj = 1:length(alltInv)
+for jj = 8:length(alltInv)
 tInv = alltInv{jj};
 tflipdiff = (tInv(end)-tInv(1))/rfr;
 % specifiy the initial frame to the end
@@ -664,7 +664,7 @@ savename = foldername(2:end-1);
 % save(['meltrate-',savename],'alltInv','allmc','allnormalmc')
 
 % plt_umrate
-plt_flipframe(alltInv,pttracker,indInv,closeoverind,wlineset(1))
+% plt_flipframe(alltInv,pttracker,indInv,closeoverind,wlineset(1))
 
 
 
