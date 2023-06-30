@@ -81,28 +81,33 @@ save([path,name13],'result','direction','freetime');
 name14 = '2022-06-28-c';
 result = [9*60+31,11*60+48,14*60+12,16*60+16,18*60+51,21*60+35,23*60+40,25*60+39,27*60+33];
 direction = [0,1,1,0,1,0,1,0,1];
-save([path,name14],'result','direction');
+freetime = 3*60+52;
+save([path,name14],'result','direction','freetime');
 
 name15 = '2022-06-29-a';
 result = [3*60+2,5*60+12,7*60+51,10*60+1,12*60+10,15*60+28,17*60+27,19*60+3,21*60+25,24*60+39,27*60+13];
 direction = [0,1,0,1,1,0,1,0,1,0,0];
-save([path,name15],'result','direction');
+freetime = 0*60+52;
+save([path,name15],'result','direction','freetime');
 
 name16 = '2022-06-29-b';
 result = [2*60+17,5*60+2,7*60+0,9*60+50,12*60+19,15*60+30,17*60+36,19*60+11,21*60+30,23*60+54,26*60+50];
 direction = [1,0,1,0,0,1,0,0,1,1,1];
-save([path,name16],'result','direction');
+freetime = 0*60+52;
+save([path,name16],'result','direction','freetime');
 
 name17 = '2022-06-29-c';
 result = [2*60+30,5*60+22,8*60+0,10*60+40,14*60+38,17*60+57,22*60+48,26*60+23,29*60+4];
+freetime = 0*60+52;
 direction = [0,1,1,1,1,0,1,0,1];
-save([path,name17],'result','direction');
+save([path,name17],'result','direction','freetime');
 
 % not that good one
 name18 = '2022-06-30-b';
 result = [5*60+21,7*60+55,9*60+57,12*60+23,14*60+56,18*60+4,19*60+17,20*60+34,23*60+16,25*60+49];
 direction = [1,0,0,1,0,1,0,0,0,0];
-save([path,name18],'result','direction');
+freetime = 3*60+32;
+save([path,name18],'result','direction','freetime');
 
 name19 = '2022-06-30-c';
 result = [1*60+51,4*60+27,6*60+34,9*60+29,12*60+26,14*60+52,16*60+58,19*60+2,22*60+13,24*60+38,26*60+35];

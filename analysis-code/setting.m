@@ -5,11 +5,16 @@
 % Updated June 2023
 %--------------------------------------------------------------------------
 
+%% add path
+addpath(genpath('datas'));
+addpath('plotres');
+addpath('functions');
+addpath('externs');
 
 %% analysis file
 rootname = ['/Users/bndsteven/Dropbox/ice-melting-AML/rollover/ice-flipping/' ...
     'experiments-data/for-data/'];
-foldername = '2022-06-28-b/';
+foldername = '2022-06-28-c/';
 filename = 'record.MOV';
 calibration = 'calibration.MOV';
 

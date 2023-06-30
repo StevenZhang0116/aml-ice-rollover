@@ -13,13 +13,9 @@ clc
 
 %% Basic Setting
 setting 
-addpath(genpath('datas'));
-addpath('plotres');
-addpath('functions');
-addpath('externs');
+
 mkdir(['datas/flip-moments/',foldername])
 disp('Create Folder for Record Flip-Around Moments')
-
 
 %% Data Preloading
 % load fliptime 
@@ -76,7 +72,7 @@ alltInv{length(alltInv)} = load(adjoint).freetime*rfr;
 
 %% start the main for loop to frames in the video
 % change bounds in generating data with manual operations
-for jj = 8:length(alltInv)
+for jj = length(alltInv):length(alltInv)
 tInv = alltInv{jj};
 tflipdiff = (tInv(end)-tInv(1))/rfr;
 
