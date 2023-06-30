@@ -7,7 +7,7 @@
 %--------------------------------------------------------------------------
 close all
 
-foldername = '2022-06-28-c/';
+foldername = '2022-06-29-a/';
 actfolder = ['datas/flip-moments/',foldername];
 S = dir(fullfile(actfolder,'**','*.mat'));
 names = {S.name}; ll = length(names); 
@@ -41,6 +41,7 @@ figure()
 iframe = load([actfolder,num2str(nm(end)),'.mat']); pt = iframe.pt; 
 scatter(pt(:,1)-iframe.cx,pt(:,2),'green')
 yline(wlineset(1),'LineStyle','--')
+title("Initial Shape after First Locking Down")
 axis equal
 
 
