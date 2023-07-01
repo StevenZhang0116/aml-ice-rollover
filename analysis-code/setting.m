@@ -14,7 +14,7 @@ addpath('externs');
 %% analysis file
 rootname = ['/Users/bndsteven/Dropbox/ice-melting-AML/rollover/ice-flipping/' ...
     'experiments-data/for-data/'];
-foldername = '2022-06-29-a/';
+foldername = '2022-06-28-a/';
 filename = 'record.MOV';
 calibration = 'calibration.MOV';
 
