@@ -7,7 +7,7 @@
 %--------------------------------------------------------------------------
 close all
 
-foldername = '2022-06-28-a/';
+foldername = '2022-07-13-a/';
 actfolder = ['datas/flip-moments/',foldername];
 S = dir(fullfile(actfolder,'**','*.mat'));
 names = {S.name}; ll = length(names); 

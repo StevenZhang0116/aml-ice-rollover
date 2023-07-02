@@ -42,6 +42,8 @@ function [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary
 
     waterpart = imcrop(grey, waterRange);
 
+    %% Trap detection
+    disp('Trap Detection/Iteration')
     % calculate the Gx, Gy gradient of cropped water surface area
     [Gx,~] = imgradientxy(waterpart);
     gradthreshold = 100;
@@ -61,17 +63,48 @@ function [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary
         cntupsize(end+1) = cntup; cntdownsize(end+1) = cntdown;
     end
 
-    % adjustment of misdetection if the border line of trap is located
-    % in wrong part of the image
+    % adjustment of misdetection if the border line of trap is located in wrong part of the image
+    % left trap
     [~,indup] = max(cntupsize);
     while indup >= 1/2*size(Gx,2)
         cntupsize(indup) = 0;
         [~,indup] = max(cntupsize);
     end
+
+    % possibly, dark large shadow of ice will be misidentified as trap; correction
+    tt = 0; 
+    while tt == 0
+        [~,ind] = findpeaks(im2single(waterpart(20,1:indup)),'MinPeakHeight',0.5);
+        if isempty(ind) == 1 % if empty
+            tt = 1;
+        else
+            if mean(ind) < indup
+                disp("Bad LEFT Trap Detection")
+                cntupsize(indup) = 0;
+                [~,indup] = max(cntupsize);
+            end
+        end
+    end
+    
+    % right trap
     [~,inddown] = max(cntdownsize);
     while inddown <= 1/2*size(Gx,2)
         cntdownsize(inddown) = 0;
         [~,inddown] = max(cntdownsize);
+    end
+
+    tt = 0; 
+    while tt == 0
+        [~,ind] = findpeaks(im2single(waterpart(20,indup:end)),'MinPeakHeight',0.5);
+        if isempty(ind) == 0
+            tt = 1;
+        else
+            if mean(ind) < indup
+                disp("Bad LEFT Trap Detection")
+                cntupsize(indup) = 0;
+                [~,indup] = max(cntupsize);
+            end
+        end
     end
 
     % x coordinate of two vertical lines of trap
@@ -152,11 +185,7 @@ function [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary
     [outermosty,outermostx] = find(outermostbw3 ~= 0);
 
     % sort it using the angle wrt the centroid point
-    xCenter = mean(outermostx); yCenter = mean(outermosty);
-    angles = atan2d(outermosty-yCenter,outermostx-xCenter);
-    [~,sai1] = sort(angles);
-    outermostx = outermostx(sai1);
-    outermosty = outermosty(sai1);
+    [outermostx,outermosty] = fr.angle_sort(outermostx,outermosty);
 
     %% test case: filter through x+y
     outermostbw3yy = bw3;
@@ -188,11 +217,7 @@ function [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary
     testy(end+1) = testy(1);
     
     % sort it using the angle wrt the centroid point
-    xCenter = mean(testx); yCenter = mean(testy);
-    angles = atan2d(testy-yCenter,testx-xCenter);
-    [~,sai1] = sort(angles);
-    testx = testx(sai1);
-    testy = testy(sai1);
+    [testx,testy] = fr.angle_sort(testx,testy);
 
 
     %% polar 
