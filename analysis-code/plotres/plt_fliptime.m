@@ -114,7 +114,7 @@ save([path,name18],'result','direction','freetime');
 name19 = '2022-06-30-c';
 result = [1*60+51,4*60+27,6*60+34,9*60+29,12*60+26,14*60+52,16*60+58,19*60+2,22*60+13,24*60+38,26*60+35];
 direction = [1,0,0,0,1,0,1,1,0,1,1];
-freetime = 0*60+52;
+freetime = 1*60+01;
 save([path,name19],'result','direction','freetime');
 
 name20 = '2022-07-02-b';

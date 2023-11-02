@@ -72,7 +72,7 @@ alltInv{length(alltInv)} = load(adjoint).freetime*rfr;
 
 %% start the main for loop to frames in the video
 % change bounds in generating data with manual operations
-for jj = length(alltInv)-1:length(alltInv)
+for jj = 5:length(alltInv)
 tInv = alltInv{jj};
 tflipdiff = (tInv(end)-tInv(1))/rfr;
 
