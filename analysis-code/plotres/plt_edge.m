@@ -5,7 +5,7 @@
 % Updated Jan 2023
 %--------------------------------------------------------------------------
 
-ff = load('../../process-data/sample_boundary.mat');
+ff = load('../../../process-data/sample_boundary.mat');
 
 timeLab = ff.timeLab;
 bdcell = ff.interpolation_cell;

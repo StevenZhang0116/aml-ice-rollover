@@ -6,7 +6,7 @@
 %--------------------------------------------------------------------------
 close all
 
-path = './data-area/';
+path = '../datas/data-area/';
 S = dir(fullfile(path,'**','*.mat'));
 names = {S.name};
 interval = 50;

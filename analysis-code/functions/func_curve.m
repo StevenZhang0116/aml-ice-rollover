@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------------
 % Curvature calculation and related functions
 % 
-% Steven Zhang, Courant Institute
+% Zihan Zhang, Courant Institute
 % Updated July 2022
 %--------------------------------------------------------------------------
 

@@ -10,7 +10,7 @@ close all
 figure('Renderer', 'painters', 'Position', [10 10 900 600])
 hold on
 
-path = './data-curvature/';
+path = '../datas/data-curvature/';
 subpath = char("normal/");
 S = dir(fullfile([path,subpath],'**','*.mat'));
 names = {S.name};

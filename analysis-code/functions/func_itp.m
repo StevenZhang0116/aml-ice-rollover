@@ -2,7 +2,7 @@
 % Interpolation functions to find equidistribued points with respect to 
 % arclength
 %
-% Steven Zhang, Courant Institute
+% Zihan Zhang, Courant Institute
 % Updated July 2022
 %--------------------------------------------------------------------------
 

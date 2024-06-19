@@ -12,7 +12,7 @@ close all
 
 clear diff
 
-path = './datas/data-rolltime/';
+path = '../datas/data-rolltime/';
 
 delete([path,'/*.mat']);
 

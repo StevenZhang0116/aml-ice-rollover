@@ -1,8 +1,9 @@
 %--------------------------------------------------------------------------
 % Main function for ice flipping experiments 
 % Boundary extraction and calculation of physical quantities
+% include setting.m function (under the same folder) for 
 %
-% Steven Zhang, Courant Institute
+% Zihan Zhang, Courant Institute
 % Updated June 2023
 %--------------------------------------------------------------------------
 
@@ -18,7 +19,7 @@ mkdir(['datas/flip-moments/',foldername])
 disp('Create Folder for Record Flip-Around Moments')
 
 %% Data Preloading
-% load fliptime 
+% load fliptime (manually selected) (as break points)
 fliptimeload = 1;
 if fliptimeload == 1
     date_experiment = foldername(1:end-1);
@@ -28,7 +29,6 @@ if fliptimeload == 1
     % ignore flips after 23 minutes [roughly]
     flipdata = flipdata(flipdata<23*60);
     % also rollback several seconds
-%     flipdata = flipdata-5; 
     % transform seconds to frame number
     flipdata = flipdata.*rfr;
     % add sf into it, as the indicator of initial shape
@@ -36,7 +36,7 @@ if fliptimeload == 1
     tInv = fliptimestamp;
 end
 
-% timestamp for calculating melting rate
+% timestamp for calculating melting rate (filling in more timeframe based on fliptime)
 meltrateind = 1;
 if meltrateind == 1
     allmc = cell(1,length(tInv)-2);
@@ -137,7 +137,7 @@ for iiii = 1:length(tInv)
         close
     end
 
-    if savefig == 1
+    if showfig == 1
         figure()
         set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
         subplot(2,2,1)
@@ -165,13 +165,15 @@ for iiii = 1:length(tInv)
         hold on
         scatter(testx,testy,'r','LineWidth',2)
         title(["adaptive alphashape + X&Y filter", num2str(siga)])  
-        % saveas(gcf,['./bd-tracking/',num2str(iiii),'.jpeg'])
-        wantthis = input('Use this IMAGE or not? ');
+        % input 0, continue to adjacent frame (might have better auto-detection)
+        % input 1, use this frame for further analysis
+        wantthis = input('Use this IMAGE or NOT? '); 
         assert((wantthis==0) || (wantthis==1))
         close
     end
 
     %% manual editing of extracted boundary points
+    % for better precision
     if wantthis == 1 && manuelw == 1
         [newx,newy] = func_manual(orig,ex,-ey,fr);
     end
@@ -181,13 +183,14 @@ for iiii = 1:length(tInv)
     % ALPHASHAPE: ex, ey
     % XY: outermostx,outermosty
     % POLAR: polarx,polary
-    if dec(1) == 'X'
+    if boundary_method(1) == 'X'
         ex = outermostx; ey = outermosty; 
-    elseif dec(1) == 'P'
+    elseif boundary_method(1) == 'P'
         ex = polarx; ey = polary; 
         ex = ex'; ey = ey';
     % otherwise is the ALPHASHAPE option
-    elseif dec(1) == 'A'
+    % default the best
+    elseif boundary_method(1) == 'A'
         ey = -ey;
     end
 
@@ -208,11 +211,13 @@ for iiii = 1:length(tInv)
     eey = [ey;ey(1)];
 
     ds = sqrt((eex(2:end)-eex(1:end-1)).^2+(eey(2:end)-eey(1:end-1)).^2);
-    s = zeros(N,1); % arclength accumulation
+    % arclength accumulation
+    s = zeros(N,1);
     for n = 1:N-1
         s(n+1) = s(n) + ds(n);
     end
-    finalL = s(end); % total arclength
+    % total arclength
+    finalL = s(end); 
 
     % equidistributed arclength
     xx = linspace(0,finalL,natpara.numpt+1); 
@@ -223,7 +228,7 @@ for iiii = 1:length(tInv)
     [pt,res] = func_allinterpolation(intp,natpara,ex,ey,s,xx);
 
     % unpack Fourier parameters
-    if method(1) == 'F'
+    if interpolation_method(1) == 'F'
         kappa = res{1}; kappa_h = res{2}; curv = res{3}; x_e = res{4}; y_e = res{5}; 
         fd = res{6}; sd = res{7};
     end
@@ -242,7 +247,7 @@ for iiii = 1:length(tInv)
     % store the normalized interpolation point (-center of mass)
     intpcell{1,iiii} = [pt(:,1)-cx,pt(:,2)-cy]; 
 
-        % save manully operated points to dataframe with timestamp
+    % save manully operated points to dataframe with timestamp
     if wantthis == 1 && manuelw == 1
         savethis = input('Save This File? ');
         if savethis == 1
@@ -297,7 +302,6 @@ for iiii = 1:length(tInv)
     end
 
     %% Calculate shape dynamics
-
     % for simplicity of calculation, traclonsform back the unit! 
     backpt = pt * natpara.rr / 100; 
     backcx = cx * natpara.rr / 100;
@@ -305,7 +309,7 @@ for iiii = 1:length(tInv)
     backex = ex * natpara.rr / 100;
     backey = ey * natpara.rr / 100;
 
-    dynind = 0;
+    dynind = 1;
     if dynind == 1
         % =================================== %  
         % Approach 1
@@ -317,12 +321,12 @@ for iiii = 1:length(tInv)
         if backpt(1,:) ~= backpt(end,:)
             backpt = [backpt;backpt(1,:)];
         end
-        [L2,R2,K2] = cf.curvature(backpt); % 3-pts method
+        [L2,R2,K2] = curf.curvature(backpt); % 3-pts method
         ccva = 1./R2;
 
         % directly using fourier coefficients
         % roughly same effect
-        if method(1) == 'F'
+        if interpolation_method(1) == 'F'
             ccva = [curv;curv(1)]/mean(curv); 
         end
     
@@ -516,6 +520,7 @@ for iiii = 1:length(tInv)
 
     
             sgtitle(["Second" string(f/rfr)]);
+            pause
             close all;
         end
        
@@ -526,9 +531,11 @@ for iiii = 1:length(tInv)
     end
 
     %% Polygon rotation (counterclockwise) [outdated]
+    %% replaced by pure simulation
     % 1: boundary integral
     % 2: body integral
     % 3: both present, and show the comparison, not for test application
+
     
     % parameter setting up
     makeupdata = 0;

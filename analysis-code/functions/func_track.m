@@ -2,7 +2,7 @@
 % Edge tracking function
 % Alternative Choice: OriginLab (https://www.originlab.com/)
 %
-% Steven Zhang, Courant Institute
+% Zihan Zhang, Courant Institute
 % Updated June 2023
 %--------------------------------------------------------------------------
 
@@ -258,116 +258,7 @@ function [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary
     polary = sind(angleset).*radiusset + ycm1;
     polary = -polary;
 
-    % =================================== % 
-    % interpolation and write r as a function of theta
-    
-    % Use Poly Interpolation (for now) 
-%     rtind = 'P';
-%     ind = 0; 
-% 
-%     % even distributed points for interpolation
-%     aa = linspace(-180,180,natpara.numpt);
-% 
-%     if rtind(1) == 'F' && ind == 1
-%         [nr,~,~,~] = intp.interpft(radiusset',angleset',10,natpara.numpt);
-%         polarx_e = -cosd(aa).*nr' + xcm1;
-%         polary_e = sind(aa).*nr' - ycm1;
-%         figure()
-%         plot(polarx_e,-polary_e)
-%         hold on
-%         plot(polarx,-polary)
-%         sgtitle(f)
-%         axis equal
-%         close
-%         pause;
-% 
-%     elseif rtind(1) == 'P' && ind == 1
-%         % transform the units
-%         % degree to radian
-%         angleset = angleset./180.*pi; 
-%         aa = aa./180.*pi;
-%         % pixel to cm
-%         radiusset = radiusset./natpara.rr; 
-%         polarx = polarx./natpara.rr; polary = polary./natpara.rr;
-%         xcm1 = xcm1/natpara.rr; ycm1 = ycm1/natpara.rr;
-% 
-%         % iterate through diff poly degree
-%        [finaldegree,~] = intp.polyfit_inter(natpara.vrr,angleset,...
-%            radiusset,aa,0);
-%         
-%         [ptheta,Sx] = polyfit(angleset,radiusset,finaldegree);
-%         % px is the poly function of theta to describe radius
-%         [finalr,~] = polyval(ptheta,aa,Sx);
-%         
-%         % transform back to xy coordinate
-%         polarx_e = cos(aa).*finalr + xcm1;
-%         polary_e = sin(aa).*finalr + ycm1;
-%         polary = -polary; 
-% 
-%         % calculate curvature using r-theta interpolation
-%         % http://mathonline.wikidot.com/the-curvature-of-plane-polar-curves
-%         f_1de = polyder(ptheta);
-%         f_2de = polyder(f_1de);
-% 
-%         param1 = fr.polyadd(2*(conv(f_1de,f_1de)),conv(ptheta,ptheta));
-%         param1 = fr.polyadd(param1,-conv(ptheta,f_2de));
-%         param2 = fr.polyadd(conv(f_1de,f_1de),conv(ptheta,ptheta));
-%         kappa = abs(polyval(param1,aa)) ./ ((abs(polyval(param2,aa))).^(3/2));
-% 
-%         [peaks,loc] = findpeaks(kappa,'MinPeakDistance',20);
-%         cre = (peaks > mean(kappa) + 1*std(kappa));
-%         peaks = peaks(cre); loc = loc(cre);
-% 
-%         figure('units','normalized','outerposition',[0 0 1 1]);
-% 
-%         % plot
-%         subplot(1,3,1)
-%         plot(angleset,radiusset)
-%         hold on
-%         plot(aa,finalr)
-%         title(['degree=',num2str(finaldegree),'    R-\theta interpolation'])
-%         legend('real','intp');
-%         xlabel('angle (radian)')
-%         ylabel('radius (cm)')
-%         hold off
-% 
-%         subplot(1,3,2)
-%         plot(aa,kappa);
-%         hold on
-%         for i = 1:length(loc)
-%             theloc = loc(i);
-%         end
-%         xlabel('angle (radian)')
-%         title('\kappa in R-\theta calculation')
-% 
-%         subplot(1,3,3)
-%         hold on
-%         scatter(polarx_e,polary_e,'red')
-%         scatter(polarx,polary,'green')
-%         scatter(polarx_e(1),polary_e(1),'filled','blue')
-%         scatter(polarx_e(10),polary_e(10),'filled','yellow')
-%         scatter(xcm1,ycm1,'*')
-%         for i = 1:length(loc)
-%             theloc = loc(i);
-%         end
-%         title(['Polar Interpolation with ',num2str(length(polarx_e)),...
-%             ' points'])
-%         legend('interpolation','polar outermost','start pt','ind pt',...
-%             'center')
-%         axis equal
-%         xlabel('x axis (cm)')
-%         ylabel('y axis (cm)')
-% 
-%         % mean radius
-%         mr = mean(finalr);
-%         [xxx,yyy] = fr.mkcircle(xcm1,ycm1,mr,bkt);
-%         scatter(xxx,yyy);
-% 
-%         hold off
-%         
-%         sgtitle(f)
-%         close;
-%     end
+
 end
 
 

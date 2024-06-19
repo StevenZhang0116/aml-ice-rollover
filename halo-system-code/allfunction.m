@@ -3,7 +3,7 @@
 % Function registeration
 
 % Crafted by Scott Weady
-% Revised by Steven Zhang, Courant Institute
+% Revised by Zihan Zhang, Courant Institute
 % Updated July 2023
 %--------------------------------------------------------------------------
 

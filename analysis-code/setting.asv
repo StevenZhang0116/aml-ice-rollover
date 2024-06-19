@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------------
 % Parameter settings and initilization section
 %
-% Zihan Zhang, Courant Institute
+% Steven Zhang, Courant Institute
 % Updated June 2023
 %--------------------------------------------------------------------------
 
@@ -40,15 +40,15 @@ interval = 1*round(rfr);
 fr = func_aux();
 intp = func_itp();
 bdyn = func_bodydynamics();
-curf = func_curve();
+cf = func_curve();
 
 %% parameter settings
 global rho_water rho_air rho_ice g method dec bkt
 
 % interpolation method
-interpolation_method = 'F';
+method = 'F';
 % boundary tracking method
-boundary_method = 'A';
+dec = 'A';
 
 % interpolation degree
 degmin = 5;
@@ -136,7 +136,7 @@ comSet = NaN(1,2);
 % last stage of trap line
 lasttrap = [0,0];
 prevarea = 0;
-showfig = 1;
+savefig = 1;
 wlineset = [];
 closeoverind = 1; 
 colorVec = parula(cellLength);

@@ -3,11 +3,19 @@
 % Based on ginput2.m 
 % Delete unwanted points -> Add Points -> Check
 % Use mouse to operate: 
-% Single left click: zoomin; Double click: back to original view
+% Single left click: zoomin; 
+% Double click: back to original view
 % Right click: select datapoint and mark
+% [The frame will be automatically centered based on the direction on the last two added
+% points for better user experience]
 % Left click (outside of frame) + Enter: stop and move on
+% (Be careful otherwise may add unwanted point :()
+% [Unfortunately no rollback option is provided internally in this function, so please be
+% as possible in operations]
+% Each finished frame will be required to be saved (or not) outside this function, so if
+% error encountered, the user could change the starting frame and rerun the main function
 %
-% Steven Zhang, Courant Institute
+% Zihan Zhang, Courant Institute
 % Updated May 2023
 %--------------------------------------------------------------------------
 

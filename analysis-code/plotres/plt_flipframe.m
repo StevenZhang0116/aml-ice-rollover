@@ -1,7 +1,7 @@
 %--------------------------------------------------------------------------
 % Plot frames just after a pervious flip and just before the next flip
 %
-% Steven Zhang, Courant Institute
+% Zihan Zhang, Courant Institute
 % Updated May 2023
 %--------------------------------------------------------------------------
 
