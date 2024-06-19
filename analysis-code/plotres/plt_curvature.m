@@ -32,7 +32,7 @@ for i=1:nn
     acc2 = load([path,subpath,matname]).curvature3Set;
     timeLab = load([path,subpath,matname]).timeLab;
     % delete the timestamp before the first flip
-    ftpath = './data-rolltime/';
+    ftpath = '../datas/data-rolltime/';
     fltime = load([ftpath,matname]).result;
 
     % separate by flip [flip-wise average]

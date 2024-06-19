@@ -165,7 +165,7 @@ for iiii = 1:length(tInv)
         hold on
         scatter(testx,testy,'r','LineWidth',2)
         title(["adaptive alphashape + X&Y filter", num2str(siga)])  
-        % input 0, continue to adjacent frame (might have better auto-detection)
+        % input 0, continue to frame in next second (might have better auto-detection)
         % input 1, use this frame for further analysis
         wantthis = input('Use this IMAGE or NOT? '); 
         assert((wantthis==0) || (wantthis==1))
@@ -194,11 +194,10 @@ for iiii = 1:length(tInv)
         ey = -ey;
     end
 
-    expixel = ex; eypixel = ey;
-
     % use manuelly operated points to calculate
     if wantthis == 1 && manuelw == 1
         ex = newx; ey = newy; 
+        expixel = ex; eypixel = ey;
     end
 
     % calibration video rescale
@@ -309,7 +308,6 @@ for iiii = 1:length(tInv)
     backex = ex * natpara.rr / 100;
     backey = ey * natpara.rr / 100;
 
-
     dynind = 1;
     if dynind == 1
         % =================================== %  
@@ -334,7 +332,7 @@ for iiii = 1:length(tInv)
         [peaks,loc] = fr.peak_select(ccva,200,1.75);
     
         % statistics for curvature calculation
-        stddiv = 1;
+        stddiv = 1; % choose that to be any "reasonable" values 
         meanc = mean(ccva);
         stdc = std(ccva);
     

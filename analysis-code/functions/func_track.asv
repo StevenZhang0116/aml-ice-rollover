@@ -156,7 +156,7 @@ function [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary
     end
     
     % delete the points in the box
-    %Basically delete out gradient points that are identified as "trap"
+    %Basically del
     for i=1:size(Gx,2)
         for j=1:size(Gx,1)
             if i <= ltrap || i >= rtrap
@@ -166,20 +166,16 @@ function [grey,ashape,originalbw3,orig,ex,ey,outermostx,outermosty,polarx,polary
     end
 
     % find edge around water surface area
-    %What does this do???
     waterpartedge = edge(Gx); 
     adjw = bwareaopen(waterpartedge,waterareaopen);
-    %bwareaopen: Matlab function that creates new image...doing what?
-    %waterareaopen?
 
-    %Confused on this whole bit oops
-    % connect edges??
+    % connect edges
     bw2 = bwmorph(bw, 'bridge');
     bw2 = bwmorph(bw2, 'diag');
-    % delete unwanted edges??
+    % delete unwanted edges
     bw3 = bwareaopen(bw, areaopen);
     
-    % stick together??
+    % stick together
     for i=1:size(adjw,1)
         for j=1:size(adjw, 2)
             bw3(wst+i,j) = adjw(i,j);
