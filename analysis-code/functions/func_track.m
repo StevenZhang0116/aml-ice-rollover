@@ -1,6 +1,8 @@
 %--------------------------------------------------------------------------
 % Edge tracking function
 % Alternative Choice: OriginLab (https://www.originlab.com/)
+% This function is quite messy and should work properly -- do not change unless have a
+% strong reason... 
 %
 % Zihan Zhang, Courant Institute
 % Updated June 2023

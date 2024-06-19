@@ -2,9 +2,9 @@
 % Body Dynamics calculation
 % Mainly focusing on center of mass, inertia, buoyancy force, and torque
 % Calculations are well-aligned to Scott Weady's simulation
-% Outdated due to no clear tendency is observed
+% Outdated due to no clear tendency is observed; replaced by pure simulation
 %
-% Steven Zhang, Courant Institute
+% Zihan Zhang, Courant Institute
 % Updated June 2023
 %--------------------------------------------------------------------------
 

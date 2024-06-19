@@ -309,10 +309,11 @@ for iiii = 1:length(tInv)
     backex = ex * natpara.rr / 100;
     backey = ey * natpara.rr / 100;
 
+
     dynind = 1;
     if dynind == 1
         % =================================== %  
-        % Approach 1
+        % Approach 1 [currently the best]
         % criteria of curvature check [only using the curvature value]
         % 1. Convex vertex
         % 2. Larger than mean+1*std
@@ -379,7 +380,8 @@ for iiii = 1:length(tInv)
             end
         end
         intseclst = intseclst(intseclst ~= 0);
-        intseclst = [intseclst,intseclst(1)]; % close the intersections
+        % close the intersections
+        intseclst = [intseclst,intseclst(1)]; 
     
         difflst = zeros(1,length(intseclst)-1);
         meandist = zeros(1,length(intseclst)-1);
@@ -531,11 +533,10 @@ for iiii = 1:length(tInv)
     end
 
     %% Polygon rotation (counterclockwise) [outdated]
-    %% replaced by pure simulation
+    % replaced by pure simulation
     % 1: boundary integral
     % 2: body integral
     % 3: both present, and show the comparison, not for test application
-
     
     % parameter setting up
     makeupdata = 0;
@@ -577,11 +578,11 @@ for iiii = 1:length(tInv)
             pt.*natpara.rr,makeupdata);
 
     elseif rotationind == 3
-         [crosscnt1,equi1,t1,m1,s1,hw1,xc1,yc1] = bdyn.calbd_integral(pt,finalL,orig,ex,ey,cx,cy,...
-                natpara,fr,indinterval);
+         [crosscnt1,equi1,t1,m1,s1,hw1,xc1,yc1] = bdyn.calbd_integral(pt,finalL,orig,ex,ey,cx, ...
+                cy,natpara,fr,indinterval);
          intergrid = 1;
-         [crosscnt2,equi2,t2,m2,s2,hw2,xc2,yc2,oldxc2] = bdyn.calbody_integral(orig,ashape,natpara,...
-             pt.*natpara.rr,makeupdata,indinterval,hw1,intergrid);
+         [crosscnt2,equi2,t2,m2,s2,hw2,xc2,yc2,oldxc2] = bdyn.calbody_integral(orig,ashape, ...
+             natpara,pt.*natpara.rr,makeupdata,indinterval,hw1,intergrid);
 
           % compare the result
          figure('units','normalized','outerposition',[0.1 0.1 0.8 0.8])
