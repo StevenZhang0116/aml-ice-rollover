@@ -1,5 +1,5 @@
 %--------------------------------------------------------------------------
-% Conduct interpolation based on the chosen method
+% Conduct interpolation based on the chosen interpolation_method
 % Functions are used from func_itp.m
 %
 % Steven Zhang, Courant Institute
@@ -7,27 +7,27 @@
 %--------------------------------------------------------------------------
 
 function [pt,res] = func_allinterpolation(intp,natpara,ex,ey,s,xx)
-    % method: Fourier, Linear, or Polynomial
+    % interpolation_method: Fourier, Linear, or Polynomial
     % intp: function register
     % numpt: number of interpolation point
     % ex: x value
-    % ey: y value
+    % ey: y value 
     % s: arclength in summation
     % xx: equidistributed arclength
     % variationset: range of order
 
-    global method
+    global interpolation_method
 
     error_var_set = [];
     res = cell(1,5);
 
     % Linear
-    if method(1) == 'L'
+    if interpolation_method(1) == 'L'
         pt = intp.interparc(natpara.numpt,ex,ey,'linear');
         pt(:,2) = -pt(:,2);
 
     % Fourier
-    elseif method(1) == 'F' 
+    elseif interpolation_method(1) == 'F' 
         for i=1:length(natpara.vrr)
             Nk = natpara.vrr(i); % Fourier mode; 
             [~,~,~,err1,~,~] = intp.interpft(ex,s,Nk,natpara.numpt);
@@ -70,7 +70,7 @@ function [pt,res] = func_allinterpolation(intp,natpara,ex,ey,s,xx)
         res{5} = y_e; res{6} = fd; res{7} = sd;
 
     % Polynomial
-    elseif method(1) == 'P' 
+    elseif interpolation_method(1) == 'P' 
         % iterate through the whole set of degree
         for i=1:length(natpara.vrr)
             degree = natpara.vrr(i);

@@ -12,9 +12,8 @@ addpath('functions');
 addpath('externs');
 
 %% analysis file
-rootname = ['/Users/bndsteven/Dropbox/ice-melting-AML/rollover/ice-flipping/' ...
-    'experiments-data/for-data/'];
-foldername = '2022-06-28-a/';
+rootname = '../../experiments-data/for-data/';
+foldername = '2022-06-30-a/';
 filename = 'record.MOV';
 calibration = 'calibration.MOV';
 
@@ -23,7 +22,11 @@ disp(['=== Analysis Experiment name: ',foldername(1:end-1),' ==='])
 videoName = strcat(rootname,foldername,filename);
 calibrationName = strcat(rootname,foldername,calibration);
 
+info = mmfileinfo(videoName);
+
+
 v = VideoReader(videoName);
+
 
 global rfr
 % framerate registeration
@@ -32,9 +35,10 @@ rfr = v.FrameRate;
 sf = 60*rfr;    
 % ignore the last 120 second
 endFrame = min(v.NumFrames,1200*rfr);
-% interval between frame
-% when interval=rfr, meaning that 1 frame per second
-interval = 1*round(rfr);
+% interval between frame; when interval=rfr, meaning that 1 frame per second
+% interval = 1*round(rfr);
+%BOBAE changed interval to be every 30 seconds
+interval = 30*round(rfr);
 
 %% instantize the function
 fr = func_aux();
@@ -43,7 +47,7 @@ bdyn = func_bodydynamics();
 curf = func_curve();
 
 %% parameter settings
-global rho_water rho_air rho_ice g method dec bkt
+global rho_water rho_air rho_ice g interpolation_method dec bkt
 
 % interpolation method
 interpolation_method = 'F';
@@ -89,6 +93,7 @@ threstrap = 0.1;
 waterSurfaceTop = 180;
 waterSurfaceBot = 230;
 
+% data collection time range
 tInv = sf:interval:endFrame;
 
 % cropped parameter
@@ -124,7 +129,7 @@ rr = fr.calibration_video(calibrationName,1);
 
 close all
 
-% water surface level
+% water surface level (outdated)
 [head2top] = fr.calibration_watersurface(videoName,cropped_interval,sf);
 wl_cm_s = head2top/rr;
 disp(['water surface height is: ', num2str(wl_cm_s)]);

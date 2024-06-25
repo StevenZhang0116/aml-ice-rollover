@@ -13,72 +13,79 @@ clear
 clc
 
 %% Basic Setting
-setting 
+setting
 
 mkdir(['datas/flip-moments/',foldername])
 disp('Create Folder for Record Flip-Around Moments')
 
-%% Data Preloading
-% load fliptime (manually selected) (as break points)
-fliptimeload = 1;
-if fliptimeload == 1
-    date_experiment = foldername(1:end-1);
-    flippath = 'data-rolltime/';
-    adjoint = strcat(flippath,date_experiment,'.mat');
-    flipdata = load(adjoint).result;
-    % ignore flips after 23 minutes [roughly]
-    flipdata = flipdata(flipdata<23*60);
-    % also rollback several seconds
-    % transform seconds to frame number
-    flipdata = flipdata.*rfr;
-    % add sf into it, as the indicator of initial shape
-    fliptimestamp = [sf,flipdata];
-    tInv = fliptimestamp;
-end
+run_all = 1; % run_all = 0 for fliptime-around analysis, including melting rate etc.
 
-% timestamp for calculating melting rate (filling in more timeframe based on fliptime)
-meltrateind = 1;
-if meltrateind == 1
-    allmc = cell(1,length(tInv)-2);
-    allnormalmc = cell(1,length(tInv)-2);
-    pttracker = cell(1,length(tInv)-2);
-    alltInv = cell(1,length(tInv)-1);
-    indInv = cell(1,length(tInv)-2);
-    centerlst = cell(1,length(tInv)-2);
-    for i = 2:length(tInv)-1
-        % the manually selected second is slighly before each flip
-        cf = i;
-        delay = 5;
-        bf = tInv(cf)+2*delay*rfr; bf2 = tInv(cf)+3*delay*rfr; 
-        af = tInv(cf+1)-delay*rfr; af2 = tInv(cf+1)-2*delay*rfr;
-        inttflip = 5*rfr;
-        % select "moment" between 2 flips
-        flipInv = [bf:inttflip:bf2,af2:inttflip:af];
-        alltInv{1,i-1} = flipInv;
-        % indicator cell [maybe have miscellaneous usages]
-        theind = cell(1,length(flipInv)); indInv{1,i-1} = theind; 
-        % save overall tracking points
-        ptt = cell(1,length(flipInv)); pttracker{1,i-1} = ptt;
-        % measuring melting rate set that record the boundary underneath water
-        mc = cell(1,length(flipInv)); allmc{1,i-1} = mc;
-        % save normal vector
-        normalmc = cell(1,length(flipInv)); allnormalmc{1,i-1} = normalmc;
-        % save center of mass
-        centerpt = cell(1,length(flipInv)); centerlst{1,i-1} = centerpt;
-    end
-end
+% ==== (START) if run_all = 1, comment out this part for whole data running (START) ==== %
 
-alltInv{length(alltInv)} = load(adjoint).freetime*rfr;
+% %% Data Preloading
+% % load fliptime (manually selected) (as break points)
+% fliptimeload = 1;
+% if fliptimeload == 1
+%     date_experiment = foldername(1:end-1);
+%     flippath = 'data-rolltime/';
+%     adjoint = strcat(flippath,date_experiment,'.mat');
+%     flipdata = load(adjoint).result;
+%     % ignore flips after 23 minutes [roughly]
+%     flipdata = flipdata(flipdata<23*60);
+%     % also rollback several seconds
+%     % transform seconds to frame number
+%     flipdata = flipdata.*rfr;
+%     % add sf into it, as the indicator of initial shape
+%     fliptimestamp = [sf,flipdata];
+%     tInv = fliptimestamp;
+% end
+% 
+% % timestamp for calculating melting rate (filling in more timeframe based on fliptime)
+% meltrateind = 1;
+% if meltrateind == 1
+%     allmc = cell(1,length(tInv)-2);
+%     allnormalmc = cell(1,length(tInv)-2);
+%     pttracker = cell(1,length(tInv)-2);
+%     alltInv = cell(1,length(tInv)-1);
+%     indInv = cell(1,length(tInv)-2);
+%     centerlst = cell(1,length(tInv)-2);
+%     for i = 2:length(tInv)-1
+%         % the manually selected second is slighly before each flip
+%         cf = i;
+%         delay = 5;
+%         bf = tInv(cf)+2*delay*rfr; bf2 = tInv(cf)+3*delay*rfr; 
+%         af = tInv(cf+1)-delay*rfr; af2 = tInv(cf+1)-2*delay*rfr;
+%         inttflip = 5*rfr;
+%         % select "moment" between 2 flips
+%         flipInv = [bf:inttflip:bf2,af2:inttflip:af];
+%         alltInv{1,i-1} = flipInv;
+%         % indicator cell [maybe have miscellaneous usages]
+%         theind = cell(1,length(flipInv)); indInv{1,i-1} = theind; 
+%         % save overall tracking points
+%         ptt = cell(1,length(flipInv)); pttracker{1,i-1} = ptt;
+%         % measuring melting rate set that record the boundary underneath water
+%         mc = cell(1,length(flipInv)); allmc{1,i-1} = mc;
+%         % save normal vector
+%         normalmc = cell(1,length(flipInv)); allnormalmc{1,i-1} = normalmc;
+%         % save center of mass
+%         centerpt = cell(1,length(flipInv)); centerlst{1,i-1} = centerpt;
+%     end
+% end
+% 
+% alltInv{length(alltInv)} = load(adjoint).freetime*rfr;
+% 
+% %% start the main for loop to frames in the video
+% % change bounds in generating data with manual operations
+% for jj = 5:length(alltInv)
+% tInv = alltInv{jj};
+% tflipdiff = (tInv(end)-tInv(1))/rfr;
 
-%% start the main for loop to frames in the video
-% change bounds in generating data with manual operations
-for jj = 5:length(alltInv)
-tInv = alltInv{jj};
-tflipdiff = (tInv(end)-tInv(1))/rfr;
+% ==== (END) if run_all = 1, comment out this part for whole data running (END) ==== %
+% ==== also comment out the "end" as well (~line 663) ====
 
 % specifiy the initial frame to the end
-for iiii = 1:length(tInv) 
-    f = tInv(iiii);
+for timeiter = 1:length(tInv) 
+    f = tInv(timeiter);
     disp(f/v.FrameRate)
     
     %% Edge tracking
@@ -100,13 +107,13 @@ for iiii = 1:length(tInv)
         plot(ex,-ey,'r','LineWidth',2);
         title('Alpha Boundary Edge');
         alphaxy = [ex,ey];
-        alphatrackcell{1,iiii} = alphaxy;
+        alphatrackcell{1,timeiter} = alphaxy;
     
         subplot(1,4,2);
         imshow(originalbw3);
         title('Edges Detected')
         % store it
-        edgetrackcell{1,iiii} = originalbw3;
+        edgetrackcell{1,timeiter} = originalbw3;
 
         % OUTERMOST XY FORMULATION % 
         subplot(1,4,3)
@@ -116,7 +123,7 @@ for iiii = 1:length(tInv)
         hold off
         title('XY outermost boundary')
         outermostxy = [outermostx,-outermosty];
-        xytrackcell{1,iiii} = outermostxy;
+        xytrackcell{1,timeiter} = outermostxy;
 
         % OUTERMOST R \theta FORMULATION %
         subplot(1,4,4)
@@ -126,7 +133,7 @@ for iiii = 1:length(tInv)
         hold off
         title('R\theta outermost boundary')
         polarxy = [polarx;-polary];
-        rthetatrackcell{1,iiii} = polarxy;
+        rthetatrackcell{1,timeiter} = polarxy;
 
         aa = f/(60*25);
         minutes = floor(aa);
@@ -228,7 +235,7 @@ for iiii = 1:length(tInv)
 
     % unpack Fourier parameters
     if interpolation_method(1) == 'F'
-        kappa = res{1}; kappa_h = res{2}; curv = res{3}; x_e = res{4}; y_e = res{5}; 
+        kappa = res{1}; kappa_h = res{2}; curv_by_fourier = res{3}; x_e = res{4}; y_e = res{5}; 
         fd = res{6}; sd = res{7};
     end
 
@@ -239,12 +246,12 @@ for iiii = 1:length(tInv)
 
     [geom, iner, cpmo] = fr.polygeom(pt(:,1),pt(:,2));
     A1 = geom(1); % area of polygon
-    areaSet(iiii) = A1;
+    areaSet(timeiter) = A1;
     cx2 = geom(2); cy2 = geom(3); % center of mass-- 2
     inertia = iner(4)+iner(5); % calculate intertia -- 1
 
     % store the normalized interpolation point (-center of mass)
-    intpcell{1,iiii} = [pt(:,1)-cx,pt(:,2)-cy]; 
+    intpcell{1,timeiter} = [pt(:,1)-cx,pt(:,2)-cy]; 
 
     % save manully operated points to dataframe with timestamp
     if wantthis == 1 && manuelw == 1
@@ -269,7 +276,7 @@ for iiii = 1:length(tInv)
     end
 
     %% Calculate melting rate at specific frame
-    meind = 1;
+    meind = (run_all ~= 1); % only run if not run_all
     if meind == 1
         % height of bottom side of water surface (cm)
         wtbt = (-waterSurfaceBot)/natpara.rr;
@@ -280,7 +287,7 @@ for iiii = 1:length(tInv)
         wlineset(end+1) = wl;
 
         % save tracking points
-        pttracker{jj}{1,iiii} = pt-[cx,0];
+        pttracker{jj}{1,timeiter} = pt-[cx,0];
 
         xs_e = fd(:,1); ys_e = fd(:,2);
         % points below the surface
@@ -294,10 +301,10 @@ for iiii = 1:length(tInv)
         meltpt = [ux,uy];
 
         [newmeltpt,indret] = fr.sort_by_angle(meltpt,90);
-        allmc{jj}{1,iiii} = newmeltpt; % store the frame
-        indInv{jj}{1,iiii} = wantthis; 
-        allnormalmc{jj}{1,iiii} = [nx(indret),ny(indret)]; % store the normal vector
-        centerlst{jj}{1,iiii} = [cx,cy];
+        allmc{jj}{1,timeiter} = newmeltpt; % store the frame
+        indInv{jj}{1,timeiter} = wantthis; 
+        allnormalmc{jj}{1,timeiter} = [nx(indret),ny(indret)]; % store the normal vector
+        centerlst{jj}{1,timeiter} = [cx,cy];
     end
 
     %% Calculate shape dynamics
@@ -320,24 +327,31 @@ for iiii = 1:length(tInv)
         if backpt(1,:) ~= backpt(end,:)
             backpt = [backpt;backpt(1,:)];
         end
-        [L2,R2,K2] = curf.curvature(backpt); % 3-pts method
+        % 3-pts method (universally applicable)
+        [L2,R2,K2] = curf.curvature(backpt); 
         ccva = 1./R2;
 
         % directly using fourier coefficients
-        % roughly same effect
+        % roughly same effect (only applicable in Fourier)
+        % Jun 25th: Overwrite the 3-pt methods approach
         if interpolation_method(1) == 'F'
-            ccva = [curv;curv(1)]/mean(curv); 
+            ccva = [curv_by_fourier;curv_by_fourier(1)]/mean(curv_by_fourier); 
         end
-    
-        [peaks,loc] = fr.peak_select(ccva,200,1.75);
+        
+        minpeakdistance = 200;
+        minpeakprominence = 1.75;
+        [peaks,loc] = fr.peak_select(ccva,minpeakdistance,minpeakprominence);
     
         % statistics for curvature calculation
         stddiv = 1; % choose that to be any "reasonable" values 
         meanc = mean(ccva);
         stdc = std(ccva);
-    
         curve_threshold = 0;
-    
+        
+        % criteria: 
+        % indlst: check if the curvature vector is pointing inward by adding a small
+        % epsilon * curvature_vector is inside of polygon
+        % stdlst: > mean+1*std
         indlst = zeros(length(peaks)); % direction check
         stdlst = zeros(length(peaks)); % compartive value check 
         abslst = zeros(length(peaks)); % absolute value check 
@@ -525,8 +539,8 @@ for iiii = 1:length(tInv)
         end
        
         % store the values
-        adjustedcurvatureSet(iiii) = adjustpeakcntt;
-        curvature3Set(iiii) = selectioncnt;
+        adjustedcurvatureSet(timeiter) = adjustpeakcntt;
+        curvature3Set(timeiter) = selectioncnt;
     
     end
 
@@ -565,7 +579,7 @@ for iiii = 1:length(tInv)
     end
     
     % register interpolation result
-    interpolation_cell{iiii} = [ex,-ey];
+    interpolation_cell{timeiter} = [ex,-ey];
 
     rotationind = 0;
     if rotationind == 1
@@ -639,14 +653,14 @@ for iiii = 1:length(tInv)
 
          close all
 
-         Hbodyset(iiii) = hw2;
-         cross2set(iiii) = crosscnt2;
+         Hbodyset(timeiter) = hw2;
+         cross2set(timeiter) = crosscnt2;
    end
     
     % update the iteration parameter
-    frameLab(iiii) = f;
-    timeLab(iiii) = v.CurrentTime;    
-end
+    frameLab(timeiter) = f;
+    timeLab(timeiter) = v.CurrentTime;    
+% end
 
 % assure only two photos between flips are selected
 indc = 0;

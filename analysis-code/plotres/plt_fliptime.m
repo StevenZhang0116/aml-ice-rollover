@@ -16,6 +16,11 @@ path = '../datas/data-rolltime/';
 
 delete([path,'/*.mat']);
 
+gray = [128 128 128]/255;
+deepyellow = [0.9290 0.6940 0.1250];
+deepred = [0.6350 .0780 .1840];
+deepgreen = [.466 .674 .188];
+
 % name1 = '2022-06-07-a';
 % result = [4*60+53,7*60+25,9*60+48,12*60+26,15*60+51,18*60+44,19*60+45,21*60+41,23*60+29,24*60+54,28*60+2];
 % save([path,name1],"result");
@@ -57,72 +62,94 @@ delete([path,'/*.mat']);
 % result = [3*60+37,6*60+16,8*60+48,11*60+23,15*60+16,17*60+24,21*60+13,24*60+17,26*60+3];
 % save([path,name9],"result");
 
-name10 = '2022-06-22-b';
-result = [2*60+27,4*60+41,6*60+46,9*60+4,11*60+4,13*60+22,14*60+33,15*60+59,17*60+48,19*60+51,22*60+18];
-direction = [0,1,0,1,1,0,0,1,0,1,0];
-save([path,name10],'result','direction');
+%% Bobae
+%Bobae: no freetimes...
+% name10 = '2022-06-22-b'; %DO NOT USE
+% result = [2*60+27,4*60+41,6*60+46,9*60+4,11*60+4,13*60+22,14*60+33,15*60+59,17*60+48,19*60+51,22*60+18];
+% direction = [0,1,0,1,1,0,0,1,0,1,0];
+% save([path,name10],'result','direction');
 
-name11 = '2022-06-23-a';
-result = [4*60+36,6*60+56,8*60+59,11*60+25,15*60+1,16*60+43,20*60+21,23*60+24,25*60+49];
-direction = [1,0,0,0,0,1,0,1,1];
-freetime = 0*60+52;
-save([path,name11],'result','direction','freetime');
+% name11 = '2022-06-23-a'; %DO NOT USE
+% result = [4*60+36,6*60+56,8*60+59,11*60+25,15*60+1,16*60+43,20*60+21,23*60+24,25*60+49];
+% direction = [1,0,0,0,0,1,0,1,1];
+% freetime = 0*60+52;
+% save([path,name11],'result','direction','freetime');
 
-name12 = '2022-06-28-a';
+name12 = '2022-06-28-a'; %use, double checked by Bobae
 result = [6*60+25,8*60+53,11*60+16,13*60+36,16*60+6,18*60+54,20*60+25,21*60+44,23*60+25,25*60+33];
-direction = [1,0,0,1,0,1,0,1,0,1];
+direction = [1,0,0,1,0,1,0,1,0,1]; %1 = right, 0 = left
 freetime = 0*60+52;
 save([path,name12],'result','direction','freetime');
 
-name13 = '2022-06-28-b';
+name13 = '2022-06-28-b'; %use
 result = [3*60+48,6*60+26,7*60+26,9*60+33,12*60+2,13*60+55,15*60+9,17*60+33,20*60+45,23*60+0,24*60+55,27*60+15];
 direction = [0,1,0,1,1,0,1,1,0,1,0,1];
 freetime = 0*60+52;
 save([path,name13],'result','direction','freetime');
 
-name14 = '2022-06-28-c';
+name14 = '2022-06-28-c'; %use
 result = [9*60+31,11*60+48,14*60+12,16*60+16,18*60+51,21*60+35,23*60+40,25*60+39,27*60+33];
 direction = [0,1,1,0,1,0,1,0,1];
 freetime = 3*60+52;
 save([path,name14],'result','direction','freetime');
 
-name15 = '2022-06-29-a';
+name15 = '2022-06-29-a'; %use
 result = [3*60+2,5*60+12,7*60+51,10*60+1,12*60+10,15*60+28,17*60+27,19*60+3,21*60+25,24*60+39,27*60+13];
 direction = [0,1,0,1,1,0,1,0,1,0,0];
 freetime = 1*60+22;
 save([path,name15],'result','direction','freetime');
 
-name16 = '2022-06-29-b';
+name16 = '2022-06-29-b'; %use
 result = [2*60+17,5*60+2,7*60+0,9*60+50,12*60+19,15*60+30,17*60+36,19*60+11,21*60+30,23*60+54,26*60+50];
 direction = [1,0,1,0,0,1,0,0,1,1,1];
 freetime = 0*60+52;
 save([path,name16],'result','direction','freetime');
 
-name17 = '2022-06-29-c';
+name17 = '2022-06-29-c'; %use
 result = [2*60+30,5*60+22,8*60+0,10*60+40,14*60+38,17*60+57,22*60+48,26*60+23,29*60+4];
 freetime = 0*60+52;
 direction = [0,1,1,1,1,0,1,0,1];
 save([path,name17],'result','direction','freetime');
 
+%INSERT 2022-06-30-a -- Bobae 06/21/24
+%used very beginning of flip for timestamps.
+name18 = '2022-06-30-a';
+result = [2*60+6, 4*60+16, 6*60+4, 8*60+41, 11*60+26, 13*60+31, 16*60+16, 17*60+43, 18*60+47, 20*60+18, 22*60+26, 25*60+18];
+freetime = 0*60+52; %not using this information anyway
+save([path,name18],'result','direction','freetime')
+
 % not that good one
-name18 = '2022-06-30-b';
+name19 = '2022-06-30-b'; %use
 result = [5*60+21,7*60+55,9*60+57,12*60+23,14*60+56,18*60+4,19*60+17,20*60+34,23*60+16,25*60+49];
 direction = [1,0,0,1,0,1,0,0,0,0];
 freetime = 3*60+32;
-save([path,name18],'result','direction','freetime');
+save([path,name19],'result','direction','freetime');
 
-name19 = '2022-06-30-c';
+name20 = '2022-06-30-c'; %use
 result = [1*60+51,4*60+27,6*60+34,9*60+29,12*60+26,14*60+52,16*60+58,19*60+2,22*60+13,24*60+38,26*60+35];
 direction = [1,0,0,0,1,0,1,1,0,1,1];
 freetime = 1*60+01;
-save([path,name19],'result','direction','freetime');
+save([path,name20],'result','direction','freetime');
 
-name20 = '2022-07-02-b';
+name21 = '2022-07-02-b'; %use
 result = [2*60+40,5*60+1,7*60+11,9*60+21,11*60+16,14*60+35,16*60+40,17*60+44,21*60+9,24*60+25,26*60+35];
 direction = [0,1,0,1,1,0,1,1,0,1,1];
 freetime = 0*60+52;
-save([path,name20],'result','direction','freetime');
+save([path,name21],'result','direction','freetime');
 
+%INSERT 2022-07-05-a: Bobae 06/21/24 
+%Notes: between flips 4-5, the ice hits the trap and doesn't flip
+%successfully.
+%Maybe delete last data point because quite small.
+name22 = '2022-07-05-a';
+% result = [2*60+6, 4*60+17, 6*60+3, 8*60+42, 11*60+27, 13*60+32, 16*60+16, 17*60+43, 18*60+47, 20*60+17, 22*60+25, 25*60+18];
+result = [2*60+25, 4*60+22, 5*60+22, 7*60+13, 9*60+35, 11*60+37, 13*60+2, 14*60+53, 18*60+38, 20*60+51, 22*60+58, 25*60+4];
+% direction = [0,1,0,1,1,0,1,1,0,1,1]; 
+% freetime = 0*60+52;
+save([path,name22],'result');%,'direction','freetime');
+
+% IF USE THESE: MAKE SURE NAME NUMBERS ARE CHANGED FROM INSERTING OTHER
+% INFORMATION.
 % name21 = '2022-07-11-a-fixed';
 % result = [2*60+3,4*60+37,6*60+39,8*60+58,12*60+14,14*60+27,16*60+59,19*60+50,22*60+2,23*60+52,25*60+12];
 % direction = [0,1,1,1,1,0,1,0,1,0,1];
@@ -143,7 +170,7 @@ save([path,name20],'result','direction','freetime');
 % direction = [1,0,1,0,0,1,0,1,0,1];
 % save([path,name24],'result','direction');
 
-name25 = '2022-07-13-a';
+name25 = '2022-07-13-a'; %use
 result = [1*60+38,3*60+58,6*60+5,8*60+43,10*60+29,12*60+46,14*60+7,15*60+50,17*60+42,19*60+13,19*60+52,21*60+2,22*60+55,...
     25*60+9,26*60+51, ];
 direction = [1,0,1,0,0,1,0,1,0,1];
@@ -165,10 +192,21 @@ for i = 1:length(names)
     ind = 1:length(fliptime);
     hold on
     if i == length(names)
-        plot(fliptime/60,ind,'-o','LineWidth',2)
+        plot(fliptime/60,ind,'-o','LineWidth',2,'Color',deepred)
     else
-        plot(fliptime/60,ind,'-o')
+        plot(fliptime/60,ind,'-o','Color',gray)
     end
+    % Checking that new inserted lines aren't too crazy:
+    % if string(char(names(i))) == '2022-07-05-a.mat' 
+    %     plot(fliptime/60,ind,'-o','LineWidth',5,'Color','r')
+    %     i
+    %     fliptime
+    % end
+    % if string(char(names(i))) == '2022-06-30-a.mat' 
+    %     plot(fliptime/60,ind,'-o','LineWidth',5,'Color','k')
+    %     i
+    %     fliptime
+    % end
 end
 
 newnames = cell(1,length(names));
@@ -178,11 +216,13 @@ for i = 1:length(names)
 end
 
 hold off
-legend(newnames,'Location','northwest','FontSize',12)
+legend(newnames,'Location','northwest','FontSize',12) %Original
+legend({'experiment','','','','','','','','','','','','simulation'},'Interpreter','Latex','Location','northwest','FontSize',12)
 title('Flip Time Plot')
-ylabel('Cumulative Number of Flips','FontSize',16)
-xlabel('Time, t(min)','FontSize',16)
-title('Cumulative number of flips from experiments and simulation','FontSize',16) 
+ylabel('Cumulative Number of Flips','Interpreter','Latex','FontSize',16)
+xlabel('Time, t(min)','Interpreter','Latex','FontSize',16)
+title('Cumulative number of flips from experiments and simulation','FontSize',16,'Interpreter','Latex') 
+ylim([0,16])
 
 
 

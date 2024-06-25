@@ -353,8 +353,8 @@ end
 
 % select peaks of given data based on certain criteria
 function [peaks,loc] = peak_select(aset,pd,pp)
-    [peaks,loc] = findpeaks(aset,'MinPeakDistance',pd,...
-            'MinPeakProminence',pp);
+    [peaks,loc] = findpeaks(aset,'MinPeakDistance',pd,'MinPeakProminence',pp);
+    
     % what if the start/end point around is the peak (global maximum) 
     % where the peak function is uncapable to identify
     if aset(1) == aset(end)
